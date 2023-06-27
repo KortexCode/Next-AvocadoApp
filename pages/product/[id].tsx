@@ -1,29 +1,44 @@
-import React, { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import React from 'react';
+import Layout from '@components/Layout/Layout';
+import ProductSummary from '@components/ProductSummary/ProductSummary';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
-import Layout from '@components/Layout/Layout'
-import ProductSummary from '@components/ProductSummary/ProductSummary'
+export const getStaticPaths: GetStaticPaths = async () => {
+  const response = await fetch('https://platzi-avo.vercel.app/api/avo');
+  const { data: productList }: TAPIAvoResponse = await response.json();
+  console.log(productList);
+  const paths = productList.map(({ id }) => ({
+    params: {
+      id,
+    },
+  }));
 
-const ProductPage = () => {
-  const { query } = useRouter()
-  const [product, setProduct] = useState<TProduct | null>(null)
+  return {
+    paths,
+    fallback: false, // false or "blocking"
+  };
+};
 
-  useEffect(() => {
-    if (query.id) {
-      window
-        .fetch(`/api/avo/${query.id}`)
-        .then((response) => response.json())
-        .then((data: TProduct) => {
-          setProduct(data)
-        })
-    }
-  }, [query.id])
+export const getStaticProps: GetStaticProps = async ({ params }) => {
+  const id = params?.id as string;
+  const response = await fetch(`https://platzi-avo.vercel.app/api/avo/${id}`);
+  const data: TProduct = await response.json();
+  console.log(data);
+  debugger;
+  return {
+    props: {
+      product: data,
+    },
+  };
+};
 
+const ProductPage = ({ product }: { product: TProduct }) => {
+  console.log(product);
   return (
     <Layout>
       {product == null ? null : <ProductSummary product={product} />}
     </Layout>
-  )
-}
+  );
+};
 
-export default ProductPage
+export default ProductPage;

@@ -24,10 +24,13 @@ const mapProductsToCards = (products: TProduct[]) =>
     </Link>
   ));
 
-const ProductList = ({ products }: ProductListProps) => (
-  <Card.Group itemsPerRow={2} stackable>
-    {mapProductsToCards(products)}
-  </Card.Group>
-);
+const ProductList = ({ products }: ProductListProps) => {
+  console.log('first');
+  return (
+    <Card.Group itemsPerRow={2} stackable>
+      {mapProductsToCards(products)}
+    </Card.Group>
+  );
+};
 
 export default ProductList;
