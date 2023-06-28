@@ -8,7 +8,7 @@ import 'dotenv/config';
 //Esta función obtendrá los props que serán pasados al componente HomePage; estos props
 //serán opbtenidos desde el servidor
 export const getStaticProps = async () => {
-  const response = await fetch('https://platzi-avo.vercel.app/api/avo');
+  const response = await fetch('https://next-avocado-app.vercel.app/api/avo');
   const { data }: TAPIAvoResponse = await response.json();
   return {
     props: {

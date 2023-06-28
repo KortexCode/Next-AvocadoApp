@@ -21,7 +21,9 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const id = params?.id as string;
-  const response = await fetch(`https://platzi-avo.vercel.app/api/avo/${id}`);
+  const response = await fetch(
+    `https://next-avocado-app.vercel.app/api/avo/${id}`
+  );
   const data: TProduct = await response.json();
   console.log(data);
   debugger;
