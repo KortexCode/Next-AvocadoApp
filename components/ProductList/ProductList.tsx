@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card } from 'semantic-ui-react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 type ProductListProps = {
   products: TProduct[];
@@ -8,24 +9,19 @@ type ProductListProps = {
 
 const mapProductsToCards = (products: TProduct[]) =>
   products.map(({ name, id, price, image }) => (
-    <Link
-      legacyBehavior
-      key={id}
-      href="/product/[id]"
-      as={`/product/${id}`}
-      passHref
-    >
+    <Link legacyBehavior key={id} href={`/product/${id}`} passHref>
       <Card
         as="a"
         header={name}
-        image={image}
+        image={
+          <Image src={image} alt="avocado image" width="333" height="333" />
+        }
         meta={<Card.Meta style={{ color: 'dimgray' }}>{price}</Card.Meta>}
       />
     </Link>
   ));
 
 const ProductList = ({ products }: ProductListProps) => {
-  console.log('first');
   return (
     <Card.Group itemsPerRow={2} stackable>
       {mapProductsToCards(products)}
